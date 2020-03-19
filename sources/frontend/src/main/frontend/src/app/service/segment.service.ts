@@ -9,31 +9,37 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class SegmentService {
 
-  allSegmentUrl = UrlConfig.API_URL + "/api/segments";
+  allSegmentUrl = UrlConfig.API_URL + "/api/segment";
+  createSegmentUrl = this.allSegmentUrl +"/create";
+  getSegmentUrl = this.allSegmentUrl+"/list";
+  deleteUrl = UrlConfig.API_URL + "/api/segment/delete"
+  updateUrl= this.allSegmentUrl+"/update";
 
 
   constructor(private http: HttpClient) { }
 
   save(segment: Segment) {
-    
-    return this.http.post(this.allSegmentUrl, JSON.stringify(segment), {
+    console.log('test save : segmentservice',segment);
+    return this.http.post(this.createSegmentUrl, JSON.stringify(segment), {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     });
   }
 
-  updateSegment(Segment: Segment): Observable<Segment> {
+  
+
+  updateSegment(Segment: Segment ): Observable<Segment> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     console.log(JSON.stringify(Segment));
-    return this.http.post<Segment>(this.allSegmentUrl + "/update", JSON.stringify(Segment), { headers: headers });
+    return this.http.post<Segment>(this.updateUrl, JSON.stringify(Segment), { headers: headers });
   }
 
   getAllSegment() {
-    return this.http.get<Segment[]>(this.allSegmentUrl);
+    return this.http.get<Segment[]>(this.getSegmentUrl);
   }
   
-  deleteAdmin(id: number): Observable<Segment> {
+  deleteSegment(id: number): Observable<Segment>{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.get<Segment>(this.allSegmentUrl + '/delete/' + id, { headers: headers });
+    return this.http.get<Segment>(this.allSegmentUrl+ "/delete/" + id, { headers: headers });
   }
 
   

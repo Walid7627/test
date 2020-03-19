@@ -1,9 +1,13 @@
 package com.sigma.model;
 
 import javax.persistence.*;
+
+import com.sigma.dto.SegmentDto;
+
 import java.util.List;
 
 @Entity
+@Table(name = "Segment")
 public class Segment {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,12 +33,29 @@ public class Segment {
     this.ape = ape;
     this.metriques = metriques;
   }
-
+  public Segment(String libelle, String cpv, String ape) {
+	  this.libelle = libelle;
+	  this.cpv = cpv;
+	  this.ape = ape;
+  }
+public Segment(SegmentDto segment) {
+	
+	
+}
   public Segment() { }
-
+  /*@Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "id")*/
+  public Long getId() {
+	  return this.id;
+  }
+  public void setId(Long id) {
+	  this.id = id ;
+  }
   public String getLibelle() {
     return this.libelle;
   }
+  
 
   public void setLibelle(String libelle) {
     this.libelle = libelle;

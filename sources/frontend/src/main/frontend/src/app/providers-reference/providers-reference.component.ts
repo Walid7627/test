@@ -329,6 +329,8 @@ export class ProvidersReferenceComponent implements OnInit {
     dialogConfig.width = "80%";
     const dialogRef = this.dialog.open(ProviderContactComponent, dialogConfig);
     dialogRef.componentInstance.provider = this.provider;
+    //CORRECTION BUG
+    dialogRef.componentInstance.loadData();
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });

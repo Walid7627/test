@@ -87,13 +87,14 @@ import { CarouselModule, WavesModule, MDBBootstrapModule } from 'angular-bootstr
 import { PurchaserListComponent } from './purchaser-list/purchaser-list.component';
 import { PurchaserService } from './service/purchaser.service';
 import { TeamListComponent } from './teams-list/teams-list.component';
-import { SegmentListComponent } from './segments-list/segments-list.component';
+import { SegmentsListComponent } from './segments-list/segments-list.component';
 import { TeamService } from './service/team.service';
 import { SegmentService } from './service/segment.service';
 import { PurchaserFormComponent } from './purchaser-form/purchaser-form.component';
 import { VisiteurService } from './service/visiteur.service';
 import { VisiteursListComponent } from './visiteurs-list/visiteurs-list.component';
 import { VisiteursFormComponent } from './visiteur-form/visiteur-form.component';
+import { SegmentComponent } from './segment/segment.component';
  
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -112,7 +113,7 @@ const appRoutes: Routes = [
   { path: 'new_password/:mail', component: NewPasswordComponent},
   { path: 'purchasers', component: PurchaserListComponent},
   { path: 'teams', component: TeamListComponent},
-  { path: 'segments', component: SegmentListComponent},
+  { path: 'segments', component: SegmentsListComponent},
   { path: 'visiteurs', component: VisiteursListComponent},
 
   {
@@ -146,7 +147,8 @@ const appRoutes: Routes = [
     ProviderContactComponent,
     PurchaserListComponent,
     TeamListComponent,
-    SegmentListComponent,
+    SegmentsListComponent,
+    SegmentComponent,
     PurchaserFormComponent,
     VisiteursListComponent,
     VisiteursFormComponent,
@@ -159,6 +161,7 @@ const appRoutes: Routes = [
     EntityAffectComponent,
     ProfileProviderContactComponent,
     NewPasswordComponent,
+    SegmentComponent,
   ],
   imports: [
     FormsModule,
