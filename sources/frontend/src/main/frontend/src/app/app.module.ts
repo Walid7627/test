@@ -27,7 +27,7 @@ import { HomeComponent } from './home/home.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import {  NavbarComponent } from './navbar/navbar.component';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { LoginService } from './service/login.service';
 
 import { AuthService } from './core/auth/auth.service';
@@ -67,8 +67,8 @@ import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './about/about.component';
 import { ProvidersReferenceComponent } from './providers-reference/providers-reference.component';
 import { ProviderContactComponent } from './provider-contact/provider-contact.component';
-import {MatExpansionModule} from '@angular/material/expansion'; 
-import {MatListModule} from '@angular/material/list'; 
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatListModule} from '@angular/material/list';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AdminsEntityListComponent } from './admins-entity-list/admins-entity-list.component';
 import { AdminsEntityFormComponent } from './admin-entity-form/admin-entity-form.component';
@@ -87,6 +87,7 @@ import { CarouselModule, WavesModule, MDBBootstrapModule } from 'angular-bootstr
 import { PurchaserListComponent } from './purchaser-list/purchaser-list.component';
 import { PurchaserService } from './service/purchaser.service';
 import { TeamListComponent } from './teams-list/teams-list.component';
+import { TeamFormComponent } from './teams-form/team-form.component';
 import { SegmentsListComponent } from './segments-list/segments-list.component';
 import { TeamService } from './service/team.service';
 import { SegmentService } from './service/segment.service';
@@ -95,7 +96,7 @@ import { VisiteurService } from './service/visiteur.service';
 import { VisiteursListComponent } from './visiteurs-list/visiteurs-list.component';
 import { VisiteursFormComponent } from './visiteur-form/visiteur-form.component';
 import { SegmentComponent } from './segment/segment.component';
- 
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -147,6 +148,7 @@ const appRoutes: Routes = [
     ProviderContactComponent,
     PurchaserListComponent,
     TeamListComponent,
+    TeamFormComponent,
     SegmentsListComponent,
     SegmentComponent,
     PurchaserFormComponent,
@@ -226,7 +228,7 @@ const appRoutes: Routes = [
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     }
   ],
-  entryComponents : [PurchaserFormComponent, EntityFormComponent, ContactUsComponent, AboutComponent, ProvidersReferenceComponent, AdminsEntityFormComponent, MatConfirmDialogComponent, EntityAffectComponent, ProviderContactComponent,ProviderDocumentsComponent,VisiteursFormComponent],
+  entryComponents : [PurchaserFormComponent, TeamFormComponent, EntityFormComponent, ContactUsComponent, AboutComponent, ProvidersReferenceComponent, AdminsEntityFormComponent, MatConfirmDialogComponent, EntityAffectComponent, ProviderContactComponent,ProviderDocumentsComponent,VisiteursFormComponent],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

@@ -1,6 +1,7 @@
 package com.sigma.dto;
 
 import com.sigma.model.Acheteur;
+import com.sigma.model.Entite;
 import com.sigma.model.ResponsableAchat;
 
 import java.util.List;
@@ -8,11 +9,13 @@ import java.util.List;
 
 
 public class EquipeDto {
-  private ResponsableAchat responsable;
+  private Long responsable;
 
   private String libelle;
 
-  private List<Acheteur> membres;
+  private Long entite;
+
+  private List<Long> membres;
 
   public String getLibelle() {
     return this.libelle;
@@ -22,19 +25,23 @@ public class EquipeDto {
     this.libelle = libelle;
   }
 
-  public ResponsableAchat getResponsable() {
+  public Long getResponsable() {
     return this.responsable;
   }
 
-  public void setResponsable(ResponsableAchat responsable) {
+  public void setResponsable(Long responsable) {
     this.responsable = responsable;
   }
 
-  public List<Acheteur> getMembres() {
+  public List<Long> getMembres() {
     return this.membres;
   }
 
-  public void setMembres(List<Acheteur> membres) {
+  public void setMembres(List<Long> membres) {
     this.membres = membres;
   }
+
+  public Long getEntity() { return this.entite; }
+
+  public void setEntite(Long entity) { this.entite = entity; }
 }

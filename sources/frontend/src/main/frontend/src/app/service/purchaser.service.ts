@@ -40,7 +40,7 @@ export class PurchaserService {
   }
 
   getFreePurchaser() {
-    //return this.http.get<Purchaser[]>(this.allPurchaserUrl+'/with-any-entity');
+    return this.http.get<Purchaser[]>(this.allPurchaserUrl+'/with-no-team');
   }
   
   deleteAdmin(id: number): Observable<Purchaser> {

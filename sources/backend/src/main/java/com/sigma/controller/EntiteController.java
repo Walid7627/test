@@ -10,6 +10,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sigma.model.*;
+import com.sigma.repository.ResponsableAchatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -29,11 +31,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sigma.config.JwtTokenUtil;
 import com.sigma.dto.EntiteDto;
 import com.sigma.dto.EquipeDto;
-import com.sigma.model.Acheteur;
-import com.sigma.model.AdministrateurEntite;
-import com.sigma.model.ApiResponse;
-import com.sigma.model.Entite;
-import com.sigma.model.Equipe;
 import com.sigma.repository.AdministrateurEntiteRepository;
 import com.sigma.repository.EntiteRepository;
 import com.sigma.repository.EquipeRepository;
@@ -241,11 +238,13 @@ public class EntiteController {
 			return objectMapper.writeValueAsString(
 					new ApiResponse(HttpStatus.BAD_REQUEST,
 							"Team already exists in this entity")
-					);
+			);
 		} else {
 
 			try {
-				eq = new Equipe(equipe.getLibelle(), equipe.getResponsable(), equipe.getMembres());
+				ResponsableAchat ra = responsableAchatRepository.findOne(equipe.getResponsable());
+				Entite ent = entiteRepository.findById(equipe.getEntity());
+				eq = new Equipe(equipe.getLibelle(), ra, ent, null);
 				eq.setEntite(en);
 				en.addEquipe(eq);
 				equipeRepository.save(eq);
@@ -256,13 +255,13 @@ public class EntiteController {
 						new ApiResponse(HttpStatus.BAD_REQUEST,
 								"Unable to create team",
 								ex)
-						);
+				);
 			}
 
 			return objectMapper.writeValueAsString(
 					new ApiResponse(HttpStatus.OK,
 							"Team successfully created\nReceived input:\n" + objectMapper.writeValueAsString(equipe))
-					);
+			);
 		}
 	}
 
@@ -429,6 +428,9 @@ public class EntiteController {
 
 	@Autowired
 	private AdministrateurEntiteRepository administrateurEntiteRepository;
+	
+	@Autowired
+	private ResponsableAchatRepository responsableAchatRepository;
 
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;

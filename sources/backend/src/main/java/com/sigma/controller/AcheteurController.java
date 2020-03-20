@@ -1,5 +1,6 @@
 package com.sigma.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -85,6 +86,25 @@ public class AcheteurController {
 		}
 	}
 	
+	@GetMapping("/with-no-team")
+	@ResponseBody
+	public String list_without_team() throws com.fasterxml.jackson.core.JsonProcessingException {
+		try {
+			List<Acheteur> users = IterableToList.toList(acheteurRepository.findAll());
+			List<Acheteur> users_test = new ArrayList<Acheteur>();
+			for (Acheteur user : users) {
+				if (user.getEquipe() == null) users_test.add(user);
+			}
+			return objectMapper.writeValueAsString(users_test);
+		} catch (Exception ex) {
+			return objectMapper.writeValueAsString(
+					new ApiResponse(HttpStatus.BAD_REQUEST,
+							"Unable to find purchasers",
+							ex)
+			);
+		}
+	}
+
 	@GetMapping("searchByEntite/{id}")
 	@ResponseBody
 	public String listInEntite(@PathVariable Long id) throws com.fasterxml.jackson.core.JsonProcessingException {
