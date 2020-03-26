@@ -88,6 +88,7 @@ import { PurchaserListComponent } from './purchaser-list/purchaser-list.componen
 import { PurchaserService } from './service/purchaser.service';
 import { TeamListComponent } from './teams-list/teams-list.component';
 import { TeamFormComponent } from './teams-form/team-form.component';
+import {TeamPurchaserComponent} from "./teams-purchaser/team-purchaser.component";
 import { SegmentsListComponent } from './segments-list/segments-list.component';
 import { TeamService } from './service/team.service';
 import { SegmentService } from './service/segment.service';
@@ -149,6 +150,7 @@ const appRoutes: Routes = [
     PurchaserListComponent,
     TeamListComponent,
     TeamFormComponent,
+    TeamPurchaserComponent,
     SegmentsListComponent,
     SegmentComponent,
     PurchaserFormComponent,
@@ -228,7 +230,7 @@ const appRoutes: Routes = [
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     }
   ],
-  entryComponents : [PurchaserFormComponent, TeamFormComponent, EntityFormComponent, ContactUsComponent, AboutComponent, ProvidersReferenceComponent, AdminsEntityFormComponent, MatConfirmDialogComponent, EntityAffectComponent, ProviderContactComponent,ProviderDocumentsComponent,VisiteursFormComponent],
+  entryComponents : [PurchaserFormComponent, TeamFormComponent, TeamPurchaserComponent, EntityFormComponent, ContactUsComponent, AboutComponent, ProvidersReferenceComponent, AdminsEntityFormComponent, MatConfirmDialogComponent, EntityAffectComponent, ProviderContactComponent,ProviderDocumentsComponent,VisiteursFormComponent],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

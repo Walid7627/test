@@ -38,4 +38,42 @@ export class TeamService {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.get<Team>(this.allTeamUrl + '/delete/' + id, { headers: headers });
   }
+
+  addPurchaser(acheteur, equipe) {
+    let params = new HttpParams().set('equipe', equipe).set('acheteur', acheteur);
+
+    const req = new HttpRequest('GET', UrlConfig.API_URL + '/api/team/acheteurs/add', {
+      params: params,
+      responseType: 'json',
+    });
+
+    return this.http.request(req);
+  }
+
+
+  removePurchaser(acheteur_id, equipe_id) {
+
+    let params = new HttpParams().set('equipe', equipe_id).set('acheteur', acheteur_id);
+
+    const req = new HttpRequest('GET', UrlConfig.API_URL + '/api/team/acheteurs/supprimer', {
+      params: params,
+      responseType: 'json',
+    });
+
+    return this.http.request(req);
+  }
+
+  getById(id) {
+    let formdata: FormData = new FormData();
+
+    formdata.append('id', id);
+
+    const req = new HttpRequest('POST', UrlConfig.API_URL + '/api/team/searchById', formdata, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
+
 }

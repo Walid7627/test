@@ -1,20 +1,17 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatDialogRef} from '@angular/material/dialog';
+import {MatDialogRef, MatDialogConfig, MatDialog} from '@angular/material/dialog';
 import {Team} from '../../model/team.model';
 import { TeamService } from '../service/team.service';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ToastrService, ToastContainerDirective } from 'ngx-toastr';
-import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
 import {map} from "rxjs/operators";
 import {PurchaserService} from "../service/purchaser.service";
 import {EntityService} from "../service/entity.service";
 import {validate} from "codelyzer/walkerFactory/walkerFn";
-import {VisiteurService} from "../service/visiteur.service";
-import {CodeAPEService} from "../service/code-ape.service";
 
 @Component({
   selector: 'app-team-form',
@@ -59,20 +56,27 @@ export class TeamFormComponent implements OnInit {
         }
       );
 
-    this.teamForm = this.fb.group({
-      libelle: ['', Validators.required],
-      responsable: [null, Validators.required],
-      entite: [null, Validators.required],
-      membres: [null]
-    });
+    if (this.team.id) {
+      this.teamForm = this.fb.group({
+        libelle: [''],
+        responsable: [null],
+        entite: [null],
+      });
+    } else {
+      this.teamForm = this.fb.group({
+        libelle: ['', Validators.required],
+        responsable: [null, Validators.required],
+        entite: [null, Validators.required],
+        membres: [null]
+      });
+    }
 
     this.action = "L'inscription";
     if (this.team.id) {
       this.teamForm.setValue({
         libelle: this.team.libelle,
         responsable: this.team.responsable,
-        entite: this.team.entite,
-        membres: this.team.membres
+        entite: this.team.entite
       });
     }
     this.listResp = this.serviceAcheteur.getFreePurchaser().pipe(map(result => {
@@ -104,62 +108,82 @@ export class TeamFormComponent implements OnInit {
     console.log("avant submit");
     if (this.team.id == null) {
       this.teamService.save(value)
-      .subscribe(res => {
-        this.loading = false;
-        console.log("Service data:");
-        let data:any = res;
-        if (data.status === "OK") {
-          this.registrationSuccessful = true;
-          this.showToastSuccessMessage("L'équipe d'achats a été ajoutée avec succès","Ajout d'équipe d'achats");
-         // this.scrollToSuccessMessage();
-          this.teamForm.reset();
-        } else {
-          this.error = data.message;
-          this.registrationError = true
+        .subscribe(res => {
+          this.loading = false;
+          console.log("Service data:");
+          let data: any = res;
+          if (data.status === "OK") {
+            this.registrationSuccessful = true;
+            this.showToastSuccessMessage("L'équipe d'achats a été ajoutée avec succès", "Ajout d'équipe d'achats");
+            // this.scrollToSuccessMessage();
+            this.teamForm.reset();
+          } else {
+            this.error = data.message;
+            this.registrationError = true
+            // this.scrollToErrorMessage();
+            this.showToastErrorMessage("Erreur lors de l'ajout de l'équipe d'achats : " + this.error, "Ajout d'équipe d'achats");
+          }
+          console.log("Data:");
+        }, err => {
+          this.loading = false;
+          this.error = err;
+          this.registrationError = true;
+          this.registrationSuccessful = false;
           // this.scrollToErrorMessage();
-          this.showToastErrorMessage("Erreur lors de l'ajout de l'équipe d'achats : "+this.error,"Ajout d'équipe d'achats");
-        }
-        console.log("Data:");
-      }, err => {
-        this.loading = false;
-        this.error = err;
-        this.registrationError = true;
-        this.registrationSuccessful = false;
-        // this.scrollToErrorMessage();
-        this.showToastErrorMessage("Erreur lors de l'ajout de l'équipe d'achats : "+this.error,"Ajout d'équipe d'achats");
-      });
+          this.showToastErrorMessage("Erreur lors de l'ajout de l'équipe d'achats : " + this.error, "Ajout d'équipe d'achats");
+        });
     } else {
-      console.log("modifying:");
-      value.id = this.team.id;
+      // @ts-ignore
+      if ((value.libelle != "" && value.libelle != this.team.libelle) || (value.responsable.id != this.team.responsable.id) || (value.entite != this.team.entite && value.entite != null)) {
+        console.log("modifying:");
+        value.id = this.team.id;
 
-      this.teamService.updateTeam(value, this.team.id)
-      .subscribe(res => {
-        this.loading = false;
-        console.log("teamService data edited:");
-        console.log(res);
-        let data:any = res;
-        if (data.status === "OK") {
-          this.registrationSuccessful = true;
-          // this.scrollToSuccessMessage();
-          this.showToastSuccessMessage("L'équipe d'achats a été modifiée avec succès","Modification de l'équipe d'achats");
-
-        } else {
-          this.error = data.message;
-          this.registrationError = true
-          // this.scrollToErrorMessage();
-          this.showToastErrorMessage("Erreur lors de la modification de l'équipe d'achats : ","Modification de l'équipe d'achats");
-
+        if (value.libelle == "") {
+          value.libelle = this.team.libelle;
         }
-        console.log("Data:");
-        console.log(data);
-      }, err => {
-        this.loading = false;
-        this.error = err;
-        this.registrationError = true;
-        this.registrationSuccessful = false;
-        this.showToastErrorMessage("Erreur lors de la modification de l'équipe d'achats : ","Modification de l'équipe d'achats");
 
-      });
+        // @ts-ignore
+        if (value.responsable.id == this.team.responsable.id) {
+          // @ts-ignore
+          value.responsable = this.team.responsable.id;
+        }
+
+        if (value.entite == null) {
+          value.entite = this.team.entite;
+        }
+
+        this.teamService.updateTeam(value, this.team.id)
+          .subscribe(res => {
+            this.loading = false;
+            console.log("teamService data edited:");
+            console.log(res);
+            let data: any = res;
+            if (data.status === "OK") {
+              this.registrationSuccessful = true;
+              // this.scrollToSuccessMessage();
+              this.showToastSuccessMessage("L'équipe d'achats a été modifiée avec succès", "Modification de l'équipe d'achats");
+
+            } else {
+              this.error = data.message;
+              this.registrationError = true
+              // this.scrollToErrorMessage();
+              this.showToastErrorMessage("Erreur lors de la modification de l'équipe d'achats : ", "Modification de l'équipe d'achats");
+
+            }
+            console.log("Data:");
+            console.log(data);
+          }, err => {
+            this.loading = false;
+            this.error = err;
+            this.registrationError = true;
+            this.registrationSuccessful = false;
+            this.showToastErrorMessage("Erreur lors de la modification de l'équipe d'achats : ", "Modification de l'équipe d'achats");
+
+          });
+      } else {
+        this.loading = false;
+        this.showToastErrorMessage("Veuillez entrer les nouvelles données", "Modification de l'équipe d'achats");
+      }
     }
   }
 
