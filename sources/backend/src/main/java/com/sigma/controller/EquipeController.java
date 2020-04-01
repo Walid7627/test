@@ -1,5 +1,6 @@
 package com.sigma.controller;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,14 +48,16 @@ public class EquipeController {
 			Acheteur ach = acheteurRepository.findOne(equipe.getResponsable());
 			Entite en = entiteRepository.findById(equipe.getEntity());
 			List<Acheteur> liste = new ArrayList<Acheteur>();
-			for (Long ache: equipe.getMembres()) {
-				Acheteur a = acheteurRepository.findOne(ache);
-				if (a.getId() != ach.getId()) {
-					a.setEntite(en);
-					liste.add(a);
+			if (equipe.getMembres() != null) {
+				for (Long ache : equipe.getMembres()) {
+					Acheteur a = acheteurRepository.findOne(ache);
+					if (a.getId() != ach.getId()) {
+						a.setEntite(en);
+						liste.add(a);
+					}
 				}
-			}
 
+			}
 			Equipe eq = new Equipe(equipe.getLibelle(), ach, en, liste);
 
 			eq.getResponsable().setRole(roleRepository.findByName(RoleType.ROLE_RESPONSABLE_ACHAT.toString()));
@@ -63,9 +66,12 @@ public class EquipeController {
 			Long id = equipeRepository.save(eq).getId();
 			addMember(id, eq.getResponsable().getId());
 			eq.getResponsable().setEquipe(equipeRepository.findById(id));
-			for (Long acheteur: equipe.getMembres()) {
-				addMember(id, acheteur);
+			if (equipe.getMembres() != null) {
+				for (Long acheteur : equipe.getMembres()) {
+					addMember(id, acheteur);
+				}
 			}
+
 
 		} catch (Exception ex) {
             return objectMapper.writeValueAsString(
@@ -362,6 +368,9 @@ public class EquipeController {
 
 	@Autowired
 	private AcheteurRepository acheteurRepository;
+
+	@Autowired
+	private AdministrateurEntiteRepository administrateurEntiteRepository;
 
 	@Autowired
 	private ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);

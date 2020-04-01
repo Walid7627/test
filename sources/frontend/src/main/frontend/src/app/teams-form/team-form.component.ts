@@ -12,6 +12,8 @@ import {map} from "rxjs/operators";
 import {PurchaserService} from "../service/purchaser.service";
 import {EntityService} from "../service/entity.service";
 import {validate} from "codelyzer/walkerFactory/walkerFn";
+import {AuthService} from "../core/auth/auth.service";
+import {AdminEntityService} from "../service/admin-entity.service";
 
 @Component({
   selector: 'app-team-form',
@@ -34,9 +36,10 @@ export class TeamFormComponent implements OnInit {
   listEntite: any;
   listPurchasers: any;
   private action: string;
+  entite: any;
 
   constructor(private teamService:TeamService, private fb: FormBuilder, public dialogRef: MatDialogRef<TeamFormComponent>,private toastrService: ToastrService,
-              public serviceAcheteur: PurchaserService, public serviceEntite: EntityService) { }
+              public serviceAcheteur: PurchaserService, public adminEntityService: AdminEntityService, public serviceEntite: EntityService, public authService: AuthService) { }
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -60,7 +63,7 @@ export class TeamFormComponent implements OnInit {
       this.teamForm = this.fb.group({
         libelle: [''],
         responsable: [null],
-        entite: [null],
+        entite: [null]
       });
     } else {
       this.teamForm = this.fb.group({
@@ -81,7 +84,7 @@ export class TeamFormComponent implements OnInit {
     }
     this.listResp = this.serviceAcheteur.getFreePurchaser().pipe(map(result => {
       const items = <any[]>result;
-      items.forEach(item => item.libelleResp = item.nom + " - " + item.prenom);
+      items.forEach(item => item.libelleResp = item.nom + "  " + item.prenom);
       return items;
     }));
 
@@ -93,12 +96,14 @@ export class TeamFormComponent implements OnInit {
 
     this.listPurchasers = this.serviceAcheteur.getFreePurchaser().pipe(map(result => {
       const items = <any[]>result;
-      items.forEach(item => item.libellePurchasers = item.nom + " - " + item.prenom);
+      items.forEach(item => item.libellePurchasers = item.nom + "  " + item.prenom);
       return items;
     }));
+
   }
 
   onSubmit({value}: {value: Team}) {
+    //console.log("auth--"+this.authService.getCurrentUser().id);
 
     console.log(value);
     this.error = "";
@@ -107,6 +112,7 @@ export class TeamFormComponent implements OnInit {
     this.loading = true;
     console.log("avant submit");
     if (this.team.id == null) {
+
       this.teamService.save(value)
         .subscribe(res => {
           this.loading = false;

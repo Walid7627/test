@@ -31,7 +31,7 @@ export class TeamListComponent implements OnInit {
   resultsLength = 0;
   searchKey: string;
 
-  constructor(private router: Router, private teamService: TeamService, private dialog: MatDialog, private dialogService: DialogService, private roleService: RoleService) { }
+  constructor(private router: Router, private teamService: TeamService, private entiteSevice: EntityService, private dialog: MatDialog, private dialogService: DialogService, private roleService: RoleService) { }
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -100,8 +100,18 @@ export class TeamListComponent implements OnInit {
   }
 
   loadData() {
-    if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_ENTITE" || this.roleService.getRole() === "ROLE_ADMINISTRATEUR_SIGMA") {
+    if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_SIGMA") {
       this.teamService.getAllTeam()
+        .subscribe(
+          data => {
+            this.dataSource = new MatTableDataSource(data);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+        );
+    }
+    if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_ENTITE") {
+      this.entiteSevice.getTeams()
         .subscribe(
           data => {
             this.dataSource = new MatTableDataSource(data);

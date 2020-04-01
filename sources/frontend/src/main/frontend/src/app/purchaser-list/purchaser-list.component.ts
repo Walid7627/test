@@ -46,7 +46,7 @@ export class PurchaserListComponent implements OnInit {
       this.loadData();
       console.log('The dialog was closed');
     });
-   
+
   }
 
   onEdit(purchaser) {
@@ -107,28 +107,37 @@ export class PurchaserListComponent implements OnInit {
         event => {
           if (event.type === HttpEventType.Response) {
             let data:any = event.body;
-  
+
             if (data.status === "OK") {
               data = JSON.parse(data.message);
-  
+
               this.dataSource = new MatTableDataSource(data);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
-  
+
             } else {
               console.log("Error while loading purchaser");
               console.log(data);
             }
           }
-  
+
         },
-  
+
         err => {
           console.log("Error while loading purchaser");
           console.log(err);
         }
-        
       );
+    }
+    if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_SIGMA" ) {
+      this.purchaserService.getAllPurchaser()
+        .subscribe(
+          data => {
+            this.dataSource = new MatTableDataSource(data);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+        );
     }
   }
 
