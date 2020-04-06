@@ -17,6 +17,8 @@ public class EquipeDto {
 
   private List<Long> membres;
 
+  private String adminEmail;
+
   public String getLibelle() {
     return this.libelle;
   }
@@ -44,4 +46,12 @@ public class EquipeDto {
   public Long getEntity() { return this.entite; }
 
   public void setEntite(Long entity) { this.entite = entity; }
+
+  public String getEmail() {
+      return this.adminEmail;
+    }
+
+  public void setEmail(String email) {
+    this.adminEmail = email;
+  }
 }

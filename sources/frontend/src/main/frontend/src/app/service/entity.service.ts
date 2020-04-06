@@ -9,6 +9,7 @@ import { catchError } from 'rxjs/operators';
 import { UrlConfig } from '../core/config/url-config';
 import { AdminEntity } from '../../model/admin-entity.model';
 import { UserStorage } from '../core/userstorage/user.storage';
+import {Team} from "../../model/team.model";
 
 @Injectable()
 export class EntityService {
@@ -17,7 +18,7 @@ export class EntityService {
   //private serviceUrl = "../../assets/entities.json";
 
   constructor(private http: HttpClient) {
-    
+
   }
 
   save(entity: Entity) {
@@ -31,6 +32,23 @@ export class EntityService {
 
   getEntities()  {
     return this.http.get<Entity[]>(this.serviceUrl);
+  }
+
+  getByMail(mail) {
+
+    let formdata: FormData = new FormData();
+
+    formdata.append('mail', mail);
+
+    const req = new HttpRequest('POST', UrlConfig.API_URL + '/api/entities/searchByMail', formdata, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+
+
+
   }
 
   getMembers() {
@@ -48,6 +66,7 @@ export class EntityService {
     return this.http.request(req);
   }
 
+  /*
   getTeams() {
     let formdata: FormData = new FormData();
 
@@ -61,6 +80,15 @@ export class EntityService {
     });
 
     return this.http.request(req);
+  }
+
+   */
+
+  getTeams() {
+    let formdata: FormData = new FormData();
+    let user = JSON.parse(new UserStorage().getUser());
+    formdata.append('mail', user.mail);
+    return this.http.post<Team[]>(this.serviceUrl + '/teams', formdata);
   }
 
   updateEntity(entity: Entity): Observable<Entity> {
@@ -85,11 +113,11 @@ export class EntityService {
   }
 
   getDocument() {
-    
+
     const req = new HttpRequest('GET', this.serviceUrl + '/export', {
       responseType: "blob"
     });
-  
+
     return this.http.request(req)
   }
 

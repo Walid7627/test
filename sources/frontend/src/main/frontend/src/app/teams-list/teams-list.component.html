@@ -1,19 +1,45 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="center">
   <div class="search-div">
     <div toastContainer></div>
     <button mat-raised-button  (click)="onCreate()">
       <mat-icon>add</mat-icon>Ajouter
     </button>
+    <!--<button mat-raised-button >
+        <mat-icon>archive</mat-icon>Exporter
+    </button>-->
     <mat-form-field class="search-form-field" floatLabel="never">
       <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
-      <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="" (click)="onSearchClear()">
+      <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="onSearchClear()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
   </div>
 
   <div class="mat-elevation-z8">
-    <mat-table #table [dataSource]="dataSource" class="entities-table" matSort matSortActive="libelle" matSortDirection="asc">
+    <mat-table #table [dataSource]="dataSource" class="team-table" matSort matSortActive="id" matSortDirection="asc">
 
       <ng-container matColumnDef="libelle">
         <mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">Nom</mat-header-cell>
@@ -28,6 +54,13 @@
       <ng-container matColumnDef="entite">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Entite</mat-header-cell>
         <mat-cell *matCellDef="let row">{{ row.responsable ? row.responsable.entite.nomSociete: "" }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="purchasers">
+        <mat-header-cell *matHeaderCellDef>Acheteurs</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="onEditPurchaser(row)" ><mat-icon>perm_contact_calendar</mat-icon></button>
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="edit">
@@ -50,6 +83,5 @@
 
     <mat-paginator [pageSizeOptions]="[10, 20, 50]">
     </mat-paginator>
-
   </div>
 </div>

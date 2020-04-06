@@ -75,4 +75,5 @@ public class Equipe {
   public Entite getEntite() { return entite; }
 
   public void setEntite(Entite entite) { this.entite = entite; }
+
 }

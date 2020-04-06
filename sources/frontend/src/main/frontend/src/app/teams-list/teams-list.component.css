@@ -31,7 +31,7 @@
     width: 30% !important;
 }
 
-.mat-column-edit, .mat-column-delete{
+.mat-column-edit, .mat-column-delete, .mat-column-purchasers{
     flex: 0 0 7% !important;
     width: 7% !important;
     justify-content: center;
