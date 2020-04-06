@@ -16,29 +16,22 @@ export class TeamService {
 
   constructor(private http: HttpClient) { }
 
-  save(team: Team) {
-    /*
-    let user = JSON.parse(new UserStorage().getUser());
-    console.log("--------- " + user.mail + "------");
+  add(team: Team) {
 
-    let mailTab = new Array;
-    mailTab.push(user.mail);
-    console.log("*********** " + mailTab[0]);
+    let user = JSON.parse(new UserStorage().getUser());
+    let mailTab = user.mail.split(".");
     return this.http.post(this.allTeamUrl + "/create/" + mailTab , JSON.stringify(team), {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     });
 
-
-     */
-
-
+    /*
       return this.http.post(this.allTeamUrl, JSON.stringify(team), {
         headers: new HttpHeaders().set('Content-Type', 'application/json')
       });
-
+     */
   }
 
-  updateTeam(Team: Team, id: number) {
+  update(Team: Team, id: number) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(this.allTeamUrl + "/update/" + id, JSON.stringify(Team), { headers: headers });
   }

@@ -41,12 +41,17 @@ public class EquipeController {
 	/**
 	 * POST /create  --> Create a new team and save it in the database.
 	 */
-	@PostMapping
+	@PostMapping("/create/{mail}")
 	@ResponseBody
-	public String create(@RequestBody EquipeDto equipe) throws com.fasterxml.jackson.core.JsonProcessingException {
+	public String create(@PathVariable List<String> mail, @RequestBody EquipeDto equipe) throws com.fasterxml.jackson.core.JsonProcessingException {
 		try {
+			String adminEmail = "";
+			for (String s : mail) {
+				adminEmail = adminEmail + "." + s;
+			}
+			adminEmail = adminEmail.substring(1);
 			Acheteur ach = acheteurRepository.findOne(equipe.getResponsable());
-			Entite en = entiteRepository.findById(equipe.getEntity());
+			Entite en = administrateurEntiteRepository.findByMail(adminEmail).getEntite();
 			List<Acheteur> liste = new ArrayList<Acheteur>();
 			if (equipe.getMembres() != null) {
 				for (Long ache : equipe.getMembres()) {

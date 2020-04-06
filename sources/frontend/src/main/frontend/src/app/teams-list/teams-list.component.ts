@@ -30,6 +30,7 @@ export class TeamListComponent implements OnInit {
   displayedColumns: string[] = ['libelle', 'responsable', 'entite', 'edit', 'delete', 'purchasers'];
   resultsLength = 0;
   searchKey: string;
+  cond = false;
 
   constructor(private router: Router, private teamService: TeamService, private entiteSevice: EntityService, private dialog: MatDialog, private dialogService: DialogService, private roleService: RoleService) { }
 
@@ -111,6 +112,7 @@ export class TeamListComponent implements OnInit {
         );
     }
     if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_ENTITE") {
+      this.cond = true;
       this.entiteSevice.getTeams()
         .subscribe(
           data => {

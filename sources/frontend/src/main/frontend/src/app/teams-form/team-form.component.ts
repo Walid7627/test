@@ -63,13 +63,13 @@ export class TeamFormComponent implements OnInit {
       this.teamForm = this.fb.group({
         libelle: [''],
         responsable: [null],
-        entite: [null]
+        //entite: [null]
       });
     } else {
       this.teamForm = this.fb.group({
         libelle: ['', Validators.required],
         responsable: [null, Validators.required],
-        entite: [null, Validators.required],
+        //entite: [null, Validators.required],
         membres: [null]
       });
     }
@@ -79,7 +79,7 @@ export class TeamFormComponent implements OnInit {
       this.teamForm.setValue({
         libelle: this.team.libelle,
         responsable: this.team.responsable,
-        entite: this.team.entite
+        //entite: this.team.entite
       });
     }
     this.listResp = this.serviceAcheteur.getFreePurchaser().pipe(map(result => {
@@ -88,11 +88,14 @@ export class TeamFormComponent implements OnInit {
       return items;
     }));
 
+    /*
     this.listEntite = this.serviceEntite.getEntities().pipe(map(result => {
       const items = <any[]>result;
       items.forEach(item => item.libelleEntite = item.nomSociete + " - " + item.numSiret);
       return items;
     }));
+
+     */
 
     this.listPurchasers = this.serviceAcheteur.getFreePurchaser().pipe(map(result => {
       const items = <any[]>result;
@@ -100,6 +103,7 @@ export class TeamFormComponent implements OnInit {
       return items;
     }));
 
+    console.log(this.authService.getCurrentUser().id);
   }
 
   onSubmit({value}: {value: Team}) {
@@ -113,7 +117,7 @@ export class TeamFormComponent implements OnInit {
     console.log("avant submit");
     if (this.team.id == null) {
 
-      this.teamService.save(value)
+      this.teamService.add(value)
         .subscribe(res => {
           this.loading = false;
           console.log("Service data:");
@@ -158,7 +162,7 @@ export class TeamFormComponent implements OnInit {
           value.entite = this.team.entite;
         }
 
-        this.teamService.updateTeam(value, this.team.id)
+        this.teamService.update(value, this.team.id)
           .subscribe(res => {
             this.loading = false;
             console.log("teamService data edited:");
