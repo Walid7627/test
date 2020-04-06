@@ -1,3 +1,4 @@
+
 package com.sigma.model;
 
 import java.util.Date;
