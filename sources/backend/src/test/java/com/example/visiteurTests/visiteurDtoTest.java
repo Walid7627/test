@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.visiteurTests;
 import org.junit.Before;
 import org.junit.Test;
 
