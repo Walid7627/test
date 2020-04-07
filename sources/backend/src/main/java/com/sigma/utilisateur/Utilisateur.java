@@ -51,11 +51,12 @@ public class Utilisateur implements IUtilisateur {
     this.prenom = prenom;
     this.mail = mail;
     this.adresse = adresse;
+    this.telephone = telephone;
+    this.mobile = mobile;
     this.password = password;
     this.dateEnregistrement = dateEnregistrement;
     this.userType = userType;
-    this.telephone = telephone;
-    this.mobile = mobile;
+
   }
 
   public Utilisateur(String nom, String prenom, String mail, String password) {
