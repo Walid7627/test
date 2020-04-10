@@ -67,28 +67,29 @@ export class EntityService {
   }
 
 
-  getTeamss() {
+  getTeams() {
+    /*
     let formdata: FormData = new FormData();
 
     let user = JSON.parse(new UserStorage().getUser());
 
     formdata.append('mail', user.mail);
-    const req = new HttpRequest('GET', this.serviceUrl + "/teams", formdata, {
+    const req = new HttpRequest('POST', this.serviceUrl + "/teams", formdata, {
       reportProgress: true,
       responseType: 'json'
     });
 
     console.log(this.http.request(req));
     return this.http.request(req);
-  }
 
-  getTeams() {
-
+     */
     let user = JSON.parse(new UserStorage().getUser());
     let mailTab = user.mail.split(".");
-
-    return this.http.get<Team[]>(this.serviceUrl + '/teams/', mailTab);
+    return this.http.post(this.serviceUrl + "/teams/" + mailTab , {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+    });
   }
+
 
   updateEntity(entity: Entity): Observable<Entity> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

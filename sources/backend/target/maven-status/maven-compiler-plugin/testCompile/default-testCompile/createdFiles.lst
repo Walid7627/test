@@ -1,1 +1,5 @@
 com\example\demo\DemoApplicationTests.class
+com\example\visiteurTests\visiteurDtoTest.class
+com\example\visiteurTests\VisiteurTest.class
+com\example\visiteurTests\visiteurControllerTest.class
+com\example\utilisateurTests\utilisateurTest.class

@@ -25,34 +25,27 @@ public class EquipeController {
 
 	@GetMapping
 	@ResponseBody
-	public List<Equipe> list() throws com.fasterxml.jackson.core.JsonProcessingException {
+	public String list() throws com.fasterxml.jackson.core.JsonProcessingException {
 		try {
 			List<Equipe> equipes = IterableToList.toList(equipeRepository.findAll());
-			System.out.print("\n+---------------------------+\n");
-			System.out.print(equipes);
-			System.out.print("\n+---------------------------+\n");
+			String s = "[";
 			for (Equipe eq : equipes) {
-				System.out.print("\n**************************\n");
-
-				System.out.print(eq);
-				System.out.print("\n**************************\n");
-
+				//System.out.print("\n+---------------------------+\n");
+				s = s + objectMapper.writeValueAsString(eq) + ",";
+				//System.out.print("\n+---------------------------+\n");
 			}
-			return equipes;
-			/*for (Equipe e : equipes) {
-				System.out.print("\n-------------- " + e.getId() + " " + e.getLibelle() + " " + e.getResponsable().getNom() + " " + e.getEntite().getNomSociete() + " ------------\n\n");
-			}
-			System.out.print("\n+---------------------------+\n");
-			System.out.print(objectMapper.writeValueAsString(equipes));
-			System.out.print("\n+---------------------------+\n");
-			return objectMapper.writeValueAsString(equipes);*/
+			s = s.substring(0, s.length() - 1);
+			s = s + "]";
+
+			//System.out.print(objectMapper.writeValueAsString(equipes));
+
+			return s;
 		} catch (Exception ex) {
-			return null;
-			/*return objectMapper.writeValueAsString(
+			return objectMapper.writeValueAsString(
 					new ApiResponse(HttpStatus.BAD_REQUEST,
 							"Unable to find teams",
 							ex)
-			);*/
+			);
 		}
 	}
 

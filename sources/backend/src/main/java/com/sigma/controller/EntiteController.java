@@ -170,11 +170,16 @@ public class EntiteController {
 		}
 	}
 
-	@GetMapping("/teams")
+	@PostMapping("/teams/{mail}")
 	@ResponseBody
-	public String listTeams(@RequestParam String mail) throws com.fasterxml.jackson.core.JsonProcessingException {
+	public String listTeams(@PathVariable List<String> mail) throws com.fasterxml.jackson.core.JsonProcessingException {
 
-		AdministrateurEntite admin = administrateurEntiteRepository.findByMail(mail);
+		String adminEmail = "";
+		for (String s : mail) {
+			adminEmail = adminEmail + "." + s;
+		}
+		adminEmail = adminEmail.substring(1);
+		AdministrateurEntite admin = administrateurEntiteRepository.findByMail(adminEmail);
 		if (admin == null) {
 			return objectMapper.writeValueAsString(
 					new ApiResponse(HttpStatus.BAD_REQUEST,
@@ -184,13 +189,14 @@ public class EntiteController {
 		try {
 			System.out.print("\n\n1111111111111111 " + admin.getNom());
 			List<Equipe> equipes = admin.getEntite().getEquipes();
+			String s = "[";
 			for (Equipe eq : equipes) {
-				System.out.print("\n ---------- " + eq.getLibelle());
+				s = s + objectMapper.writeValueAsString(eq) + ",";
 			}
-			return objectMapper.writeValueAsString(
-					new ApiResponse(HttpStatus.OK,
-							objectMapper.writeValueAsString(equipes))
-			);
+			s = s.substring(0, s.length() - 1);
+			s = s + "]";
+			return s;
+
 		} catch (Exception ex) {
 			return objectMapper.writeValueAsString(
 					new ApiResponse(HttpStatus.BAD_REQUEST,

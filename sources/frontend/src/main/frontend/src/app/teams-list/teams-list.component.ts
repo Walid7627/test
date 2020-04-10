@@ -108,7 +108,7 @@ export class TeamsListComponent implements OnInit {
 
   loadData() {
 
-    /*
+/*
     if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_ENTITE" ) {
       this.entiteSevice.getTeams()
         .subscribe(
@@ -138,20 +138,23 @@ export class TeamsListComponent implements OnInit {
         );
     }
 
-     */
+ */
+
+
 
     if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_ENTITE") {
       this.cond = true;
-      this.teamService.getAllTeam()
+      this.entiteSevice.getTeams()
         .subscribe(
           data => {
+            // @ts-ignore
             this.dataSource = new MatTableDataSource(data);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
-            console.log(this.dataSource);
           }
         );
     }
+
 
 
     if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_SIGMA") {

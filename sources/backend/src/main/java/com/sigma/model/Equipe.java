@@ -14,8 +14,8 @@ import java.util.List;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-public class Equipe {
 
+public class Equipe {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
