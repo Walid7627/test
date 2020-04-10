@@ -102,7 +102,6 @@ export class PurchaserListComponent implements OnInit {
   loadData() {
     if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_ENTITE" ) {
       this.entityService.getMembers()
-
       .subscribe(
         event => {
           if (event.type === HttpEventType.Response) {

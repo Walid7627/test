@@ -15,15 +15,16 @@ import {Provider} from "../../model/provider.model";
 import {ProviderContactComponent} from "../provider-contact/provider-contact.component";
 import {Team} from "../../model/team.model";
 import {TeamPurchaserComponent} from "../teams-purchaser/team-purchaser.component";
+import {ToastContainerDirective} from "ngx-toastr";
 
 
 @Component({
   selector: 'app-all-teams',
   templateUrl: './teams-list.component.html',
   styleUrls: ['./teams-list.component.css'],
-  providers: [TeamService, RoleService, EntityService]
+  providers: [TeamService, EntityService]
 })
-export class TeamListComponent implements OnInit {
+export class TeamsListComponent implements OnInit {
   // propriété
   alladmins: any;
   dataSource = new MatTableDataSource();
@@ -31,13 +32,18 @@ export class TeamListComponent implements OnInit {
   resultsLength = 0;
   searchKey: string;
   cond = false;
+  loading: boolean;
+
 
   constructor(private router: Router, private teamService: TeamService, private entiteSevice: EntityService, private dialog: MatDialog, private dialogService: DialogService, private roleService: RoleService) { }
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  ngOnInit(): void {
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(ToastContainerDirective, { static: true }) toastContainer: ToastContainerDirective;
+
+  ngOnInit() {
     this.loadData();
+    this.loading = false;
   }
 
   onCreate() {
@@ -101,6 +107,53 @@ export class TeamListComponent implements OnInit {
   }
 
   loadData() {
+
+    /*
+    if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_ENTITE" ) {
+      this.entiteSevice.getTeams()
+        .subscribe(
+          event => {
+            if (event.type === HttpEventType.Response) {
+              let data:any = event.body;
+
+              if (data.status === "OK") {
+                data = JSON.parse(data.message);
+
+                this.dataSource = new MatTableDataSource(data);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+
+              } else {
+                console.log("Error while loading team");
+                console.log(data);
+              }
+            }
+
+          },
+
+          err => {
+            console.log("Error while loading team");
+            console.log(err);
+          }
+        );
+    }
+
+     */
+
+    if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_ENTITE") {
+      this.cond = true;
+      this.teamService.getAllTeam()
+        .subscribe(
+          data => {
+            this.dataSource = new MatTableDataSource(data);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+            console.log(this.dataSource);
+          }
+        );
+    }
+
+
     if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_SIGMA") {
       this.teamService.getAllTeam()
         .subscribe(
@@ -111,17 +164,7 @@ export class TeamListComponent implements OnInit {
           }
         );
     }
-    if (this.roleService.getRole() === "ROLE_ADMINISTRATEUR_ENTITE") {
-      this.cond = true;
-      this.entiteSevice.getTeams()
-        .subscribe(
-          data => {
-            this.dataSource = new MatTableDataSource(data);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
-        );
-    }
+
   }
 
   onEditPurchaser(team: Team) {

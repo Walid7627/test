@@ -23,12 +23,6 @@ export class TeamService {
     return this.http.post(this.allTeamUrl + "/create/" + mailTab , JSON.stringify(team), {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     });
-
-    /*
-      return this.http.post(this.allTeamUrl, JSON.stringify(team), {
-        headers: new HttpHeaders().set('Content-Type', 'application/json')
-      });
-     */
   }
 
   update(Team: Team, id: number) {
@@ -37,7 +31,7 @@ export class TeamService {
   }
 
   getAllTeam() {
-    return this.http.get<Team[]>(this.allTeamUrl);
+    return this.http.get<any[]>(this.allTeamUrl);
   }
 
   deleteAdmin(id: number): Observable<Team> {

@@ -44,7 +44,7 @@ export class VisiteursListComponent implements OnInit {
     });
   }
 
-  
+
   onEdit(visiteur: Visiteur) {
     console.log(visiteur.adresse);
     const dialogConfig = new MatDialogConfig();
@@ -99,7 +99,7 @@ export class VisiteursListComponent implements OnInit {
   loadData() {
     this.visiteurService.getAllVisiteurs()
       .subscribe(
-        data => { 
+        data => {
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;

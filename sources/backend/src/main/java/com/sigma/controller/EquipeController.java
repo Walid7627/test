@@ -25,16 +25,34 @@ public class EquipeController {
 
 	@GetMapping
 	@ResponseBody
-	public String list() throws com.fasterxml.jackson.core.JsonProcessingException {
+	public List<Equipe> list() throws com.fasterxml.jackson.core.JsonProcessingException {
 		try {
-			List<Equipe> teams = IterableToList.toList(equipeRepository.findAll());
-			return objectMapper.writeValueAsString(teams);
+			List<Equipe> equipes = IterableToList.toList(equipeRepository.findAll());
+			System.out.print("\n+---------------------------+\n");
+			System.out.print(equipes);
+			System.out.print("\n+---------------------------+\n");
+			for (Equipe eq : equipes) {
+				System.out.print("\n**************************\n");
+
+				System.out.print(eq);
+				System.out.print("\n**************************\n");
+
+			}
+			return equipes;
+			/*for (Equipe e : equipes) {
+				System.out.print("\n-------------- " + e.getId() + " " + e.getLibelle() + " " + e.getResponsable().getNom() + " " + e.getEntite().getNomSociete() + " ------------\n\n");
+			}
+			System.out.print("\n+---------------------------+\n");
+			System.out.print(objectMapper.writeValueAsString(equipes));
+			System.out.print("\n+---------------------------+\n");
+			return objectMapper.writeValueAsString(equipes);*/
 		} catch (Exception ex) {
-			return objectMapper.writeValueAsString(
+			return null;
+			/*return objectMapper.writeValueAsString(
 					new ApiResponse(HttpStatus.BAD_REQUEST,
 							"Unable to find teams",
 							ex)
-					);
+			);*/
 		}
 	}
 

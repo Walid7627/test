@@ -170,33 +170,9 @@ public class EntiteController {
 		}
 	}
 
-	@PostMapping("/teams")
+	@GetMapping("/teams")
 	@ResponseBody
 	public String listTeams(@RequestParam String mail) throws com.fasterxml.jackson.core.JsonProcessingException {
-		AdministrateurEntite admin = administrateurEntiteRepository.findByMail(mail);
-		if (admin == null) {
-			return objectMapper.writeValueAsString(
-					new ApiResponse(HttpStatus.BAD_REQUEST,
-							"No privilege to list teams")
-					);
-		}
-		try {
-			List<Equipe> equipes = IterableToList.toList(admin.getEntite().getEquipes());
-			return objectMapper.writeValueAsString(equipes);
-		} catch (Exception ex) {
-			return objectMapper.writeValueAsString(
-					new ApiResponse(HttpStatus.BAD_REQUEST,
-							"Unable to find teams",
-							ex)
-					);
-		}
-	}
-
-	/*
-	@GetMapping("/equipes/")
-	@ResponseBody
-	public String listTeams(@RequestParam String mail) throws com.fasterxml.jackson.core.JsonProcessingException {
-		System.out.print("--------------------------"+mail);
 
 		AdministrateurEntite admin = administrateurEntiteRepository.findByMail(mail);
 		if (admin == null) {
@@ -206,8 +182,15 @@ public class EntiteController {
 					);
 		}
 		try {
+			System.out.print("\n\n1111111111111111 " + admin.getNom());
 			List<Equipe> equipes = admin.getEntite().getEquipes();
-			return objectMapper.writeValueAsString(equipes);
+			for (Equipe eq : equipes) {
+				System.out.print("\n ---------- " + eq.getLibelle());
+			}
+			return objectMapper.writeValueAsString(
+					new ApiResponse(HttpStatus.OK,
+							objectMapper.writeValueAsString(equipes))
+			);
 		} catch (Exception ex) {
 			return objectMapper.writeValueAsString(
 					new ApiResponse(HttpStatus.BAD_REQUEST,
@@ -216,7 +199,6 @@ public class EntiteController {
 					);
 		}
 	}
-	 */
 	
 	@RequestMapping("/admin/{id}/{ad_id}")
 	@ResponseBody
