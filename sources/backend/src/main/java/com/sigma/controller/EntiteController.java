@@ -187,8 +187,11 @@ public class EntiteController {
 					);
 		}
 		try {
-			System.out.print("\n\n1111111111111111 " + admin.getNom());
 			List<Equipe> equipes = admin.getEntite().getEquipes();
+			if (equipes.size() == 0) {
+				System.out.print(objectMapper.writeValueAsString(equipes));
+				return objectMapper.writeValueAsString(equipes);
+			}
 			String s = "[";
 			for (Equipe eq : equipes) {
 				s = s + objectMapper.writeValueAsString(eq) + ",";

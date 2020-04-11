@@ -28,11 +28,14 @@ public class EquipeController {
 	public String list() throws com.fasterxml.jackson.core.JsonProcessingException {
 		try {
 			List<Equipe> equipes = IterableToList.toList(equipeRepository.findAll());
+			if (equipes.size() == 0) {
+				System.out.print(objectMapper.writeValueAsString(equipes));
+				return objectMapper.writeValueAsString(equipes);
+			}
+
 			String s = "[";
 			for (Equipe eq : equipes) {
-				//System.out.print("\n+---------------------------+\n");
 				s = s + objectMapper.writeValueAsString(eq) + ",";
-				//System.out.print("\n+---------------------------+\n");
 			}
 			s = s.substring(0, s.length() - 1);
 			s = s + "]";
