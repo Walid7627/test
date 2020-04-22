@@ -144,8 +144,8 @@ export class TeamFormComponent implements OnInit {
         });
     } else {
       // @ts-ignore
-      if ((value.libelle != "" && value.libelle != this.team.libelle) || (value.responsable.id != this.team.responsable.id) || (value.entite != this.team.entite && value.entite != null)) {
-        console.log("modifying:");
+      if ((value.libelle != "" && value.libelle != this.team.libelle) || (value.responsable.id != this.team.responsable.id)) {
+        console.log("modifyinggggg:");
         value.id = this.team.id;
 
         if (value.libelle == "") {
@@ -154,8 +154,8 @@ export class TeamFormComponent implements OnInit {
 
         // @ts-ignore
         if (value.responsable.id == this.team.responsable.id) {
-          // @ts-ignore
-          value.responsable = this.team.responsable.id;
+          value.responsable = null;
+          
         }
 
         if (value.entite == null) {

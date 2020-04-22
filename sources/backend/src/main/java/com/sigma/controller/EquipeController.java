@@ -148,23 +148,13 @@ public class EquipeController {
 	@ResponseBody
 	public String update(@PathVariable Long id, @RequestBody EquipeDto equipe) throws com.fasterxml.jackson.core.JsonProcessingException {
 		try {
+			System.out.print("\n\n11111111111 equipe_id:"+id+" new_resp"+equipe.getResponsable()+"  new_entite"+equipe.getEntity());
 			Equipe eq = equipeRepository.findById(id);
 			if (equipe.getLibelle() != null) {
 				eq.setLibelle(equipe.getLibelle());
 			}
-			if (equipe.getEntity() != eq.getEntite().getId()) {
-				Entite en = entiteRepository.findById(equipe.getEntity());
 
-				eq.setEntite(en);
-
-				for (Acheteur a : eq.getMembres()) {
-					a.setEntite(en);
-					acheteurRepository.save(a);
-				}
-				eq.getResponsable().setEntite(en);
-				acheteurRepository.save(eq.getResponsable());
-			}
-			if (equipe.getResponsable() != eq.getResponsable().getId()) {
+			if (equipe.getResponsable() != eq.getResponsable().getId() && equipe.getResponsable() != null) {
 				Acheteur ra = acheteurRepository.findOne(equipe.getResponsable());
 				ra.setRole(roleRepository.findByName(RoleType.ROLE_RESPONSABLE_ACHAT.toString()));
 				ra.setEntite(eq.getEntite());
@@ -174,7 +164,7 @@ public class EquipeController {
 				Acheteur resp = acheteurRepository.findOne(eq.getResponsable().getId());
 				resp.setRole(roleRepository.findByName(RoleType.ROLE_ACHETEUR.toString()));
 				resp.setEquipe(null);
-				resp.setEntite(null);
+				//resp.setEntite(null);
 				acheteurRepository.save(resp);
 
 				eq.setResponsable(ra);
@@ -250,7 +240,7 @@ public class EquipeController {
 			Equipe eq = equipeRepository.findById(id);
 			Acheteur a = acheteurRepository.findOne(acheteur_id);
 			a.setEquipe(null);
-			a.setEntite(null);
+			//a.setEntite(null);
 			acheteurRepository.save(a);
             equipeRepository.save(eq);
 
@@ -281,7 +271,7 @@ public class EquipeController {
 				);
 			}
 			a.setEquipe(null);
-			a.setEntite(null);
+			//a.setEntite(null);
 
 			acheteurRepository.save(a);
 			equipeRepository.save(eq);

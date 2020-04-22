@@ -117,10 +117,11 @@ public class AuthController {
                                           "Vous n'avez pas encore d'entité à gérer.")
                       ), HttpStatus.OK);
             }
+
             return new ResponseEntity<String>(
                     objectMapper.writeValueAsString(
                         new ApiResponse(HttpStatus.OK,
-                                          objectMapper.writeValueAsString(new AuthToken(token, usr)))
+                                          objectMapper.writeValueAsString(new AuthToken(token, (AdministrateurEntite)usr)))
                     ), HttpStatus.OK);
         } 
         if (user instanceof Acheteur) {

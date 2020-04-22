@@ -1,11 +1,14 @@
 package com.sigma.controller;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sigma.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -21,10 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sigma.dto.AcheteurDto;
-import com.sigma.model.Acheteur;
-import com.sigma.model.AdministrateurEntite;
-import com.sigma.model.ApiResponse;
-import com.sigma.model.RoleType;
 import com.sigma.repository.AcheteurRepository;
 import com.sigma.repository.AdministrateurEntiteRepository;
 import com.sigma.repository.RoleRepository;
@@ -93,7 +92,10 @@ public class AcheteurController {
 			List<Acheteur> users = IterableToList.toList(acheteurRepository.findAll());
 			List<Acheteur> users_test = new ArrayList<Acheteur>();
 			for (Acheteur user : users) {
-				if (user.getEquipe() == null) users_test.add(user);
+				System.out.print("\n\n"+user.getId()+"\n\n");
+				if (user.getEquipe() == null) {
+					users_test.add(user);
+				}
 			}
 			return objectMapper.writeValueAsString(users_test);
 		} catch (Exception ex) {
