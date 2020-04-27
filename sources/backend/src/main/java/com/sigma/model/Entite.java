@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 		property = "id")
 public class Entite {
 
+	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -48,6 +50,7 @@ public class Entite {
 	private AdministrateurEntite administrateur;
 	
 	@OneToMany(mappedBy="entite")
+	@Fetch(value=FetchMode.SELECT)
 	private List<Visiteur> visiteur;
 
 	@OneToMany(mappedBy="entite")
@@ -263,6 +266,12 @@ public class Entite {
 	public void removeEquipe(Equipe equipe) {
 		this.equipes.remove(equipe);
 	}
+	public List<Visiteur> getVisiteur() {
+		return visiteur;
+	}
 
+	public void setVisiteur(List<Visiteur> visiteur) {
+		this.visiteur = visiteur;
+	}
 
 }

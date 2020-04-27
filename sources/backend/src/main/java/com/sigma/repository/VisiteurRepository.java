@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+
+import com.sigma.model.Equipe;
 import com.sigma.model.Visiteur;
 
 @Service
@@ -18,6 +20,7 @@ public interface VisiteurRepository extends PagingAndSortingRepository<Visiteur,
 	
 	Optional<Visiteur> findById(@Param("id") Long id);
 	
+	List<Visiteur> findByEntiteId(Long id);
 	
 	List<Visiteur> findByEntiteIdIsNull();
 }
