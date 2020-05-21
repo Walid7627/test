@@ -25,7 +25,7 @@
     </properties>
 
     <modules>
-        <module>sources/frontend</module>
-        <module>sources/backend</module>
+        <module>/sources/frontend</module>
+        <module>/sources/backend</module>
     </modules>
 </project>
